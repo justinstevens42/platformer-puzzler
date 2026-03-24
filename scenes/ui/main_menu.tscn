@@ -1,0 +1,101 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="1"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.09, 0.12, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+custom_minimum_size = Vector2(640, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 44
+text = "Pathfinding: The Video Game"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.8, 0.88, 1)
+theme_override_font_sizes/font_size = 20
+visible = false
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer1" type="Control" parent="Center/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="JustinLevels" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Justin Levels"
+
+[node name="LevelEditor" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Level Editor"
+
+[node name="Spacer2" type="Control" parent="Center/VBox"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="TutorialHJ" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "PCG - Double Jump Mode (experimental)"
+
+[node name="TutorialHP" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "PCG - Horizontal Pass Mode (experimental)"
+
+[node name="MainLevel" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "PCG - Combined Mode (experimental)"
+
+[node name="Credits" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(440, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Credits"
+
+[connection signal="pressed" from="Center/VBox/TutorialHJ" to="." method="_on_tutorial_hj_pressed"]
+[connection signal="pressed" from="Center/VBox/TutorialHP" to="." method="_on_tutorial_hp_pressed"]
+[connection signal="pressed" from="Center/VBox/MainLevel" to="." method="_on_main_level_pressed"]
+[connection signal="pressed" from="Center/VBox/JustinLevels" to="." method="_on_justin_levels_pressed"]
+[connection signal="pressed" from="Center/VBox/LevelEditor" to="." method="_on_level_editor_pressed"]
+[connection signal="pressed" from="Center/VBox/Credits" to="." method="_on_credits_pressed"]
