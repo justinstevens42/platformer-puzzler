@@ -7,6 +7,8 @@ const JUMP_VELOCITY := -360.0
 const DOUBLE_TAP_WINDOW := 0.3
 ## "Coyote time": allow jump shortly after walking off a ledge.
 const COYOTE_TIME := 0.06
+## Prevent accidental instant double-jump right after takeoff / edge drop.
+const DOUBLE_JUMP_ARM_TIME := 0.12
 ## Approximate feet Y offset from CharacterBody2D origin (collision center Y + half height).
 const FEET_Y_OFFSET := 16.0
 ## Match `player.tscn`: RectangleShape2D 20×28, CollisionShape2D position (0, 2).
@@ -20,6 +22,7 @@ var _has_double_jumped: bool = false
 var _last_left_time: float = -1000.0
 var _last_right_time: float = -1000.0
 var _time_since_floor: float = 0.0
+var _air_time: float = 0.0
 
 
 func _ready() -> void:
@@ -30,13 +33,16 @@ func _physics_process(delta: float) -> void:
 	if not _rs.is_run_active:
 		velocity = Vector2.ZERO
 		_time_since_floor = 0.0
+		_air_time = 0.0
 		return
 
 	if not is_on_floor():
 		_time_since_floor += delta
+		_air_time += delta
 		velocity.y += gravity * delta
 	else:
 		_time_since_floor = 0.0
+		_air_time = 0.0
 		_has_double_jumped = false
 
 	velocity.x = Input.get_axis("move_left", "move_right") * SPEED
@@ -47,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor() or _time_since_floor <= COYOTE_TIME:
 			velocity.y = JUMP_VELOCITY
 			_time_since_floor = COYOTE_TIME + 1.0
-		elif not _has_double_jumped and &"high_jump" in _rs.loadout:
+		elif _air_time >= DOUBLE_JUMP_ARM_TIME and not _has_double_jumped and &"high_jump" in _rs.loadout:
 			if _rs.consume_charge(&"high_jump"):
 				velocity.y = JUMP_VELOCITY
 				_has_double_jumped = true
@@ -174,3 +180,4 @@ func reset_ability_state() -> void:
 	_last_left_time = -1000.0
 	_last_right_time = -1000.0
 	_time_since_floor = 0.0
+	_air_time = 0.0

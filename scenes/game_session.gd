@@ -109,8 +109,7 @@ func _physics_process(_delta: float) -> void:
 		_rs.record_death()
 		if not _rs.is_run_active:
 			return
-		_player.velocity = Vector2.ZERO
-		_player.global_position = _respawn_position
+		_reload_current_level_state()
 
 
 func _mark_input_handled() -> void:
@@ -189,7 +188,10 @@ func reset_current_level() -> void:
 	_rs.record_restart()
 	if not _rs.is_run_active:
 		return
+	_reload_current_level_state()
 
+
+func _reload_current_level_state() -> void:
 	if _player.has_method("reset_ability_state"):
 		_player.reset_ability_state()
 
